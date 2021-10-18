@@ -3,10 +3,14 @@ package com.example.MobRecharge.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MobRecharge.entity.BankAccount;
+import com.example.MobRecharge.exceptions.InvalidArguementsException;
+import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.repository.BankAccountRepository;
 
 @Service
@@ -21,13 +25,15 @@ public class BankAccountService {
 	 
 	}
       public BankAccount getAccount(int id) {
-    	  if(id == 0) {
-  			throw new RuntimeException();
+    	  if (id <= 0) {
+  			throw new InvalidArguementsException("Invalid Id");
   		}
-    	  BankAccount bankAccount=bankAccountRepository.findByAccountId(id);
-    	  if(bankAccount==null) {
-  			throw new RuntimeException("Bank Account not found");
-  		}
+    	  BankAccount bankAccount;
+    	  try {
+    		  bankAccount=bankAccountRepository.findByAccountId(id);
+    	  }catch(EntityNotFoundException ex) {
+    		  throw new ResourceNotFoundException("Bank Account Not Found");
+    	  }
     	  return  bankAccount;
 		
 	}
@@ -35,16 +41,17 @@ public class BankAccountService {
 	return bankAccountRepository.findAll();
 	}
 	public void deleteAccount(Integer id) {
-		if(id == 0) {
-			throw new RuntimeException();
+		if (id <= 0) {
+			throw new InvalidArguementsException("Invalid Id");
 		}
 		BankAccount bankAccount=bankAccountRepository.findByAccountId(id);
 		bankAccountRepository.delete(bankAccount);
 	}
 	public BankAccount updateAccount(Integer id, BankAccount bankAccount) {
 		if(id==0 || bankAccount == null) {
-			throw new RuntimeException();
+			throw new InvalidArguementsException("bad arguement");
 		}
+		try {
 		BankAccount exsistingBankAccount=bankAccountRepository.findByAccountId(id);
 		if(exsistingBankAccount==null) {
 			throw new RuntimeException("Bank Account not found");
@@ -54,17 +61,20 @@ public class BankAccountService {
 			exsistingBankAccount.setAccountNumber(bankAccount.getAccountNumber());
 		}
 		
-		if(bankAccount.getAccountHolder()!= "") {
+		if(bankAccount.getAccountHolder()!= null) {
 			exsistingBankAccount.setAccountHolder(bankAccount.getAccountHolder());
 		}
 		if(bankAccount.getAccountBalance()!= 0.0f) {
 			exsistingBankAccount.setAccountBalance(bankAccount.getAccountBalance());
 		}
-		if(bankAccount.getBankName()!= "") {
+		if(bankAccount.getBankName()!= null) {
 			exsistingBankAccount.setBankName(bankAccount.getBankName());
 		}
 		bankAccountRepository.save(exsistingBankAccount);
 		return exsistingBankAccount;
+		}catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Plan not found");
+		}
 	}
 	
 

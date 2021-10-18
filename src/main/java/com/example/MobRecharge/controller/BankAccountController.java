@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.MobRecharge.entity.BankAccount;
+import com.example.MobRecharge.exceptions.InvalidArguementsException;
+import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.BankAccountService;
 
 @RestController
@@ -30,26 +32,26 @@ public class BankAccountController {
 	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccount bankaccount) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.addBankAccount(bankaccount));
-		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "Bank Account Not Saved", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
 
 	@GetMapping("/BankAccounts")
 	ResponseEntity<List<BankAccount>> getAllAccounts() {
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAllAccounts());
-		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Accounts Not Found", exc);
-		}
+		List<BankAccount> accounts= bankAccountService.getAllAccounts();
+			return ResponseEntity.status(HttpStatus.OK).body(accounts);
+		
 	}
 
 	@GetMapping("/BankAccounts/{id}")
 	ResponseEntity<BankAccount> getAccount(@PathVariable Integer id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAccount(id));
-		} catch (RuntimeException exc) {
+		} catch (ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Account Not Found", exc);
+		}catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
 
@@ -57,11 +59,14 @@ public class BankAccountController {
 	ResponseEntity<String> deleteAccount(@PathVariable Integer id) {
 		try {
 			bankAccountService.deleteAccount(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Deleted Succefully");
-		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Account Not found", exc);
+			return ResponseEntity.status(HttpStatus.OK).body("Deleted Successfully");
+		}catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		} catch (IllegalArgumentException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
+	
 
 	@PutMapping("/BankAccounts/{id}")
 	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id, @RequestBody BankAccount bankAccount) {
@@ -69,8 +74,10 @@ public class BankAccountController {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.updateAccount(id, bankAccount));
 
-		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bank Account Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		} catch (IllegalArgumentException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
 }
