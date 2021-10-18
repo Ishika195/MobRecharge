@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Plan {
 	
 	@Id
