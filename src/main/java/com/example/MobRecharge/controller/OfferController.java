@@ -49,7 +49,6 @@ public class OfferController {
 
 	@PutMapping("/offer/{id}")
 	Offer updateOffer(@PathVariable Integer id, @RequestBody Offer offer) {
-		offer.setOfferId(id);
 		return offerService.updateOffer(id, offer);
 	}
 }
