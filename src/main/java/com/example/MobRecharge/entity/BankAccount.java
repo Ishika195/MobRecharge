@@ -20,11 +20,19 @@ public class BankAccount {
 	private String bankName;
 	private String accountHolder;
 	private int accountNumber;
+	private float accountBalance;
+	
 	@CreationTimestamp
 	private Date createdAt;
 	@UpdateTimestamp
 	private Date updatedAt;
 	
+	public float getAccountBalance() {
+		return accountBalance;
+	}
+	public void setAccountBalance(float accountBalance) {
+		this.accountBalance = accountBalance;
+	}
 	public Integer getAccountId() {
 		return accountId;
 	}
