@@ -29,14 +29,9 @@ public class PlanController {
 
 	@GetMapping("plan")
 	ResponseEntity<List<Plan>> getPlans() {
-		try {
-			List<Plan> plans = planService.getAllPlans();
-			return ResponseEntity.status(HttpStatus.OK).body(plans);
-		} catch (ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
-		} catch (InvalidArguementsException exc) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
-		}
+		List<Plan> plans = planService.getAllPlans();
+		return ResponseEntity.status(HttpStatus.OK).body(plans);
+
 	}
 
 	@GetMapping("plan/{id}")
@@ -44,11 +39,11 @@ public class PlanController {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(planService.getPlan(id));
 
-		} catch (ResourceNotFoundException exc ) {
+		} catch (ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
 		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
-		} 
+		}
 	}
 
 	@PostMapping("plan")
@@ -56,12 +51,9 @@ public class PlanController {
 		try {
 			planService.createPlan(plan);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Plan Saved");
-		} catch (ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
 		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
-
 	}
 
 	@DeleteMapping("plan/{id}")
@@ -69,9 +61,9 @@ public class PlanController {
 		try {
 			planService.deletePlan(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Plan Deleted");
-		} catch (ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
 		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		} catch (IllegalArgumentException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
