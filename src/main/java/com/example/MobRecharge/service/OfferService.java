@@ -18,20 +18,49 @@ public class OfferService {
 	}
 
 	public Integer saveOffer(Offer offer) {
+		if(offer==null) {
+			throw new RuntimeException("Empty object");
+		}
 		offerRepository.save(offer);
 		return offer.getOfferId();
 	}
 
 	public Offer getOffer(Integer id) {
-		return offerRepository.findByOfferId(id);
+		if(id==0) {
+			throw new RuntimeException("Offer does not exist");
+		}
+		Offer offer = offerRepository.findByOfferId(id);
+		if(offer==null) {
+			throw new RuntimeException("offer not found");
+		}
+		return offer;
 	}
 
 	public void deleteOffer(Integer id) {
+		if(id==0) {
+			throw new RuntimeException("Offer does not exist");
+		}
 		offerRepository.deleteById(id);
 	}
 
 	public Offer updateOffer(Integer id, Offer offer) {
-		offerRepository.save(offer);
-		return offer;
+		if(id==0 || offer == null) {
+			throw new RuntimeException("Offer does not exist");
+		}
+		Offer existingOffer  = offerRepository.findByOfferId(id);
+		if(existingOffer==null) {
+			throw new RuntimeException("offer not found");
+		}
+		if(offer.getDiscount()!=0) {
+			existingOffer.setDiscount(offer.getDiscount());
+		}
+		if(offer.getMinAmount()!=0) {
+			existingOffer.setMinAmount(offer.getMinAmount());
+		}
+		if(offer.getMaxAmount()!=0) {
+			existingOffer.setMinAmount(offer.getMaxAmount());
+		}
+		offerRepository.save(existingOffer);
+		return existingOffer;
 	}
 }
