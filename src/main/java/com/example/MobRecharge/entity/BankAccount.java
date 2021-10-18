@@ -15,7 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class BankAccount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
-	private Integer id;
+	private Integer accountId;
 	
 	private String bankName;
 	private String accountHolder;
@@ -24,11 +24,12 @@ public class BankAccount {
 	private Date createdAt;
 	@UpdateTimestamp
 	private Date updatedAt;
-	public Integer getId() {
-		return id;
+	
+	public Integer getAccountId() {
+		return accountId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 	public String getBankName() {
 		return bankName;

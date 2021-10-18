@@ -17,16 +17,20 @@ public class BankAccountService {
 		return  bankAccountRepository.save(bankaccount);
 	 
 	}
-      public BankAccount getAccount(Integer id) {
-    	  return bankAccountRepository.findById(id);
+      public BankAccount getAccount(int id) {
+    	  return  bankAccountRepository.findByAccountId(id);
 		
 	}
 	public List<BankAccount> getAllAccounts() {
 	return bankAccountRepository.findAll();
 	}
 	public void deleteAccount(Integer id) {
-		BankAccount bankAccount=bankAccountRepository.findById(id);
+		BankAccount bankAccount=bankAccountRepository.findByAccountId(id);
 		bankAccountRepository.delete(bankAccount);
+	}
+	public BankAccount updateAccount(Integer id, BankAccount bankAccount) {
+		bankAccountRepository.save(bankAccount);
+		return bankAccount;
 	}
 	
 
