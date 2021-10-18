@@ -29,8 +29,10 @@ public class OfferController {
 	ResponseEntity<List<Offer>> getAllOffers() {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(offerService.getOffers());
-		} catch (RuntimeException exception) {
+		} catch (ResourceNotFoundException exception) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offers Not Found", exception);
+		} catch (InvalidArguementsException exception) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguments", exception);
 		}
 	}
 
@@ -40,17 +42,22 @@ public class OfferController {
 		try {
 			Integer id = offerService.saveOffer(offer);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added offer with id : " + id);
-		} catch (RuntimeException exception) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "Offer Not Saved", exception);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offers Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguments", exc);
 		}
+
 	}
 
 	@GetMapping("/offers/{id}")
 	ResponseEntity<Offer> getOffer(@PathVariable Integer id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(offerService.getOffer(id));
-		} catch (RuntimeException exception) {
+		} catch (ResourceNotFoundException exception) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offers Not Found", exception);
+		} catch (InvalidArguementsException exception) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguments", exception);
 		}
 	}
 
@@ -60,8 +67,10 @@ public class OfferController {
 		try {
 			offerService.deleteOffer(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Successfully added offer with id : " + id);
-		}catch(RuntimeException exception) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offer Not found", exception);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offers Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguments", exc);
 		}
 	}
 
@@ -69,8 +78,10 @@ public class OfferController {
 	ResponseEntity<Offer> updateOffer(@PathVariable Integer id, @RequestBody Offer offer) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(offerService.updateOffer(id, offer));
-		}catch(RuntimeException exception) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offers Not Found", exception);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Offers Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
 }
