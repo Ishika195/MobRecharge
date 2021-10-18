@@ -29,4 +29,9 @@ public class OfferService {
 	public void deleteOffer(Integer id) {
 		offerRepository.deleteById(id);
 	}
+
+	public Offer updateOffer(Integer id, Offer offer) {
+		offerRepository.save(offer);
+		return offer;
+	}
 }
