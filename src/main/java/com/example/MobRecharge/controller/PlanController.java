@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.MobRecharge.entity.Plan;
+import com.example.MobRecharge.exceptions.InvalidArguementsException;
+import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.PlanService;
 
 @RestController
@@ -29,8 +32,10 @@ public class PlanController {
 		try {
 			List<Plan> plans = planService.getAllPlans();
 			return ResponseEntity.status(HttpStatus.OK).body(plans);
-		} catch (RuntimeException exc) {
+		} catch (ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
 
@@ -39,40 +44,49 @@ public class PlanController {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(planService.getPlan(id));
 
-		} catch (RuntimeException exc) {
+		} catch (ResourceNotFoundException exc ) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
-		}
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		} 
 	}
-	
+
 	@PostMapping("plan")
-	ResponseEntity<String>createPlan(@RequestBody Plan plan){
+	ResponseEntity<String> createPlan(@RequestBody Plan plan) {
 		try {
 			planService.createPlan(plan);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Plan Saved");
-		}  catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "Plans Not Saved", exc);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
+
 	}
-	
+
 	@DeleteMapping("plan/{id}")
-	ResponseEntity<String>createPlan(@PathVariable int id){
+	ResponseEntity<String> createPlan(@PathVariable int id) {
 		try {
 			planService.deletePlan(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Plan Deleted");
-		}  catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plan Not found", exc);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
-	
+
 	@PutMapping("plan/{id}")
 	ResponseEntity<Plan> updatePlan(@PathVariable int id, @RequestBody Plan plan) {
 		System.out.println(plan);
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(planService.updatePlan(id,plan));
+			return ResponseEntity.status(HttpStatus.OK).body(planService.updatePlan(id, plan));
 
-		} catch (RuntimeException exc) {
+		} catch (ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Plans Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
-	
+
 }
