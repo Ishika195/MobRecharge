@@ -22,7 +22,7 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.UserService;
 
 @RestController
-@RequestMapping("/MobRechargeApp/v1")
+@RequestMapping("/mobRechargeApp/v1")
 public class UserController {
 	@Autowired
 	UserService userService;

@@ -18,15 +18,10 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.TransactionService;
 
 @RestController
-@RequestMapping("/MobRechargeApp/v1")
+@RequestMapping("/mobRechargeApp/v1")
 public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
-
-	String getTransaction(@RequestBody Transaction transaction) {
-
-		return "Successfully done";
-	}
 
 	@GetMapping("/user/transaction/{id}")
 	ResponseEntity<Transaction> getTransactionDetail(@PathVariable Integer id) {
