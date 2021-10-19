@@ -54,7 +54,8 @@ public class UserService {
 			if (user.getEmail() != null) {
 				existingUser.setLastName(user.getEmail());
 			}
-			if (user.getMobileNumber() != 0) {
+			System.out.println(user.getMobileNumber());
+			if (user.getMobileNumber() != null) {
 				existingUser.setMobileNumber(user.getMobileNumber());
 			}
 			if (user.getDateOfBirth() != null) {

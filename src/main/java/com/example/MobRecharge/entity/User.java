@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class User {
@@ -26,6 +27,7 @@ public class User {
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)
 	private Date createdAt;
+	@UpdateTimestamp
 	private Date updatedAt;
 
 	public Integer getUserId() {
