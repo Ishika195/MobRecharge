@@ -33,9 +33,10 @@ public class BankAccountService {
 			  throw new ResourceNotFoundException("User Not Found");
 		  }
 		  BankAccount bankAccount = new BankAccount();
-		  bankAccount.setAccountBalance(bankAccountRequest.getBalance());
-		  bankAccount.setAccountHolder(bankAccountRequest.getHolderName());
-		  bankAccount.setAccountNumber(bankAccountRequest.getNumber());
+		  bankAccount.setBalance(bankAccountRequest.getBalance());
+		  bankAccount.setHolderName(bankAccountRequest.getHolderName());
+		  bankAccount.setNumber(bankAccountRequest.getNumber());
+		  bankAccount.setBankName(bankAccountRequest.getBankName());
 		  bankAccount.setUser(user);
 		  
 		  return  bankAccountRepository.save(bankAccount);
@@ -74,15 +75,15 @@ public class BankAccountService {
 			throw new RuntimeException("Bank Account not found");
 		}
 	
-		if(bankAccount.getAccountNumber()!=0) {
-			exsistingBankAccount.setAccountNumber(bankAccount.getAccountNumber());
+		if(bankAccount.getNumber()!=0) {
+			exsistingBankAccount.setNumber(bankAccount.getNumber());
 		}
 		
-		if(bankAccount.getAccountHolder()!= null) {
-			exsistingBankAccount.setAccountHolder(bankAccount.getAccountHolder());
+		if(bankAccount.getHolderName()!= null) {
+			exsistingBankAccount.setHolderName(bankAccount.getHolderName());
 		}
-		if(bankAccount.getAccountBalance()!= 0.0f) {
-			exsistingBankAccount.setAccountBalance(bankAccount.getAccountBalance());
+		if(bankAccount.getBalance()!= 0.0f) {
+			exsistingBankAccount.setBalance(bankAccount.getBalance());
 		}
 		if(bankAccount.getBankName()!= null) {
 			exsistingBankAccount.setBankName(bankAccount.getBankName());
