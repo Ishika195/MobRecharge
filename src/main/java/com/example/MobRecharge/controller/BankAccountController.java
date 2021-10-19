@@ -28,7 +28,7 @@ public class BankAccountController {
 	@Autowired
 	BankAccountService bankAccountService;
 
-	@PostMapping("/BankAccounts")
+	@PostMapping("/bankAccount")
 	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccount bankaccount) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.addBankAccount(bankaccount));
@@ -37,14 +37,14 @@ public class BankAccountController {
 		}
 	}
 
-	@GetMapping("/BankAccounts")
+	@GetMapping("/bankAccount")
 	ResponseEntity<List<BankAccount>> getAllAccounts() {
 		List<BankAccount> accounts= bankAccountService.getAllAccounts();
 			return ResponseEntity.status(HttpStatus.OK).body(accounts);
 		
 	}
 
-	@GetMapping("/BankAccounts/{id}")
+	@GetMapping("/bankAccount/{id}")
 	ResponseEntity<BankAccount> getAccount(@PathVariable Integer id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAccount(id));
@@ -55,7 +55,7 @@ public class BankAccountController {
 		}
 	}
 
-	@DeleteMapping("/BankAccounts/{id}")
+	@DeleteMapping("/bankAccount/{id}")
 	ResponseEntity<String> deleteAccount(@PathVariable Integer id) {
 		try {
 			bankAccountService.deleteAccount(id);
