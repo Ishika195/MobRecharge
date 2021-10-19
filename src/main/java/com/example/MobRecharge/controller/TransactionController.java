@@ -1,5 +1,7 @@
 package com.example.MobRecharge.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +24,19 @@ import com.example.MobRecharge.service.TransactionService;
 public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
-
+	
 	@GetMapping("/user/transaction/{id}")
+	ResponseEntity<List<Transaction>>getTransactionHistory(@PathVariable Integer id){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(transactionService.transactionHistory(id));
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transactions Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		}
+	}
+	
+	@GetMapping("/transaction/{id}")
 	ResponseEntity<Transaction> getTransactionDetail(@PathVariable Integer id) {
 
 		try {
@@ -49,4 +62,5 @@ public class TransactionController {
 		}
 	}
 
+	
 }

@@ -69,7 +69,7 @@ public class BankAccountController {
 	}
 	
 
-	@PutMapping("/BankAccounts/{id}")
+	@PutMapping("/bankAccount/{id}")
 	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id, @RequestBody BankAccount bankAccount) {
 		System.out.println(bankAccount);
 		try {
