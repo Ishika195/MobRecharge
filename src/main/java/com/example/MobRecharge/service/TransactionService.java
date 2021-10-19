@@ -1,5 +1,8 @@
 package com.example.MobRecharge.service;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
@@ -31,6 +34,13 @@ public class TransactionService {
      
      @Autowired
      BankAccountRepository bankAccountRepository;
+     
+    public List<Transaction> transactionHistory(Integer id){
+    	if(id<=0) {
+			throw new InvalidArguementsException("Invalid Id");
+		}
+    	return transactionRepository.findByUserId(id);
+    }
      
 	public Transaction getTransactionDetail(Integer id) {
 		if(id<=0) {
@@ -66,19 +76,24 @@ public class TransactionService {
 			 throw new ResourceNotFoundException("account not found");
 		}
 		
-		if(bankAccount.getBalance()<transactionRequest.getAmount()) {
+		if(bankAccount.getBalance()<plan.getPrice()) {
 			throw new RuntimeException("Not enough balance");
 		}
 		
 		
 		Transaction transaction = new Transaction();
-		transaction.setAmount(transactionRequest.getAmount());
+		transaction.setAmount(plan.getPrice());
 		transaction.setModOfPayment(transactionRequest.getModOfPayment());
 		transaction.setUserId(user);
 		transaction.setPlanId(plan);
 		transaction.setAccountId(bankAccount);
 		
-		bankAccount.setBalance(bankAccount.getBalance() - transactionRequest.getAmount());
+		
+		bankAccount.setBalance(bankAccount.getBalance() - plan.getPrice());
+		Set<Plan> plans = user.getPlans();
+		plans.add(plan);
+		user.setPlans(plans);
+		userRepository.save(user);
 		bankAccountRepository.save(bankAccount);
 		transactionRepository.save(transaction);
 		

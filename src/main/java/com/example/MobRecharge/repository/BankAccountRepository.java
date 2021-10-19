@@ -1,5 +1,6 @@
 package com.example.MobRecharge.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Intege
 	BankAccount findByAccountId(Integer id);
 
     BankAccount findByNumber(int number);
+    
+    List<BankAccount> findByUserId(int userId);
 }

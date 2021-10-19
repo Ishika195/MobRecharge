@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.MobRecharge.entity.Offer;
+import com.example.MobRecharge.entity.BankAccount;
+import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.entity.User;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
+import com.example.MobRecharge.service.BankAccountService;
 import com.example.MobRecharge.service.UserService;
 
 @RestController
@@ -27,33 +29,58 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	BankAccountService bankAccountService;
+
 	@PostMapping("/user")
 	ResponseEntity<String> addNewUser(@RequestBody User user) {
 		try {
 			Integer id = userService.saveUser(user);
-			return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully with id: "+id);
+			return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully with id: " + id);
 		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
-	
+
 	@GetMapping("/user")
 	ResponseEntity<List<User>> getAllUsers() {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
 	}
-	
+
 	@DeleteMapping("/user/{id}")
 	ResponseEntity<String> deleteUser(@PathVariable Integer id) {
 		try {
 			userService.deleteUser(id);
 			return ResponseEntity.status(HttpStatus.OK).body("User delete successfully");
-		}catch (InvalidArguementsException exc) {
+		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		} catch (IllegalArgumentException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
-	
+
+	@GetMapping("/user/account/{id}")
+	ResponseEntity<List<BankAccount>> getUserAccounts(@PathVariable int id) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAllAccountByUser(id));
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		} catch (RuntimeException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, exc.getMessage(), exc);
+		}
+	}
+
+	@GetMapping("/user/plan/{id}")
+	ResponseEntity<List<Plan>> getUserPlans(@PathVariable int id) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(userService.getAllPlans(id));
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found", exc);
+		} catch (InvalidArguementsException exc) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
+		}
+	}
+
 	@PutMapping("/user/{id}")
 	ResponseEntity<User> updateUserProfile(@PathVariable int id, @RequestBody User user) {
 		System.out.println(user);
@@ -61,7 +88,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, user));
 
 		} catch (ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Users Not Found", exc);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found", exc);
 		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}

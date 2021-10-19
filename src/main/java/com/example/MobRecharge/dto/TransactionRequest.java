@@ -5,7 +5,6 @@ import com.example.MobRecharge.entity.ModOfPayment;
 public class TransactionRequest {
 
 	private Integer id;
-	private float amount;
 	private ModOfPayment modOfPayment;
 	
 	private int userId;
@@ -18,14 +17,6 @@ public class TransactionRequest {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public float getAmount() {
-		return amount;
-	}
-
-	public void setAmount(float amount) {
-		this.amount = amount;
 	}
 
 	public ModOfPayment getModOfPayment() {

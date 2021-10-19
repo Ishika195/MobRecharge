@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.entity.User;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
@@ -69,5 +70,17 @@ public class UserService {
 			throw new ResourceNotFoundException("user not found");
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Plan> getAllPlans(int id){
+		if (id <= 0) {
+			throw new InvalidArguementsException("Invalid Id");
+		}
+		User user = userRepository.findByUserId(id);
+		if(user==null) {
+			throw new ResourceNotFoundException("user not found");
+		}
+		return (List<Plan>) user.getPlans();
 	}
 }
