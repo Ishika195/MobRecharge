@@ -5,15 +5,8 @@ public class BankAccountRequest {
 	private String bankName;
 	private String holderName;
 	private int Number;
-	private float balance;
 	private int userId;
 	
-	public float getBalance() {
-		return balance;
-	}
-	public void setBalance(float balance) {
-		this.balance = balance;
-	}
 	public String getBankName() {
 		return bankName;
 	}
@@ -32,12 +25,18 @@ public class BankAccountRequest {
 	public void setNumber(int number) {
 		Number = number;
 	}
+	public float getBalance() {
+		return balance;
+	}
+	public void setBalance(float balance) {
+		this.balance = balance;
+	}
 	public int getUserId() {
 		return userId;
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
+	private float balance;
 
 }
