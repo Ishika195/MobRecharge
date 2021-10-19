@@ -20,8 +20,24 @@ public class BankAccountService {
 	  public BankAccount addBankAccount(BankAccount bankAccount) {
 		  if(bankAccount==null) {
 				throw new RuntimeException("Empty object");
+<<<<<<< Updated upstream
 			}
 		return  bankAccountRepository.save(bankAccount);
+=======
+		}
+		  User user = userRepository.findByUserId(bankAccountRequest.getUserId());
+		  if(user==null) {
+			  throw new ResourceNotFoundException("User Not Found");
+		  }
+		  BankAccount bankAccount = new BankAccount();
+		  bankAccount.setBalance(bankAccountRequest.getBalance());
+		  bankAccount.setHolderName(bankAccountRequest.getHolderName());
+		  bankAccount.setNumber(bankAccountRequest.getNumber());
+		  bankAccount.setBankName(bankAccountRequest.getBankName());
+		  bankAccount.setUserId(user);
+		  
+		  return  bankAccountRepository.save(bankAccount);
+>>>>>>> Stashed changes
 	 
 	}
       public BankAccount getAccount(int id) {
@@ -61,11 +77,11 @@ public class BankAccountService {
 			exsistingBankAccount.setAccountNumber(bankAccount.getAccountNumber());
 		}
 		
-		if(bankAccount.getAccountHolder()!= null) {
-			exsistingBankAccount.setAccountHolder(bankAccount.getAccountHolder());
+		if(bankAccount.getHolderName()!= null) {
+			exsistingBankAccount.setHolderName(bankAccount.getHolderName());
 		}
-		if(bankAccount.getAccountBalance()!= 0.0f) {
-			exsistingBankAccount.setAccountBalance(bankAccount.getAccountBalance());
+		if(bankAccount.getBalance()!= 0.0f) {
+			exsistingBankAccount.setBalance(bankAccount.getBalance());
 		}
 		if(bankAccount.getBankName()!= null) {
 			exsistingBankAccount.setBankName(bankAccount.getBankName());

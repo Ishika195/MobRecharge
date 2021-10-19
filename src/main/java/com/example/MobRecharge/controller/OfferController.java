@@ -20,7 +20,7 @@ import com.example.MobRecharge.entity.Offer;
 import com.example.MobRecharge.service.OfferService;
 
 @RestController
-@RequestMapping("/MobRechargeApp/v1")
+@RequestMapping("/mobRechargeApp/v1")
 public class OfferController {
 	@Autowired
 	OfferService offerService;

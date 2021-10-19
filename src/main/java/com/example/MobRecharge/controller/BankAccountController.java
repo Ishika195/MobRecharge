@@ -22,7 +22,7 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.BankAccountService;
 
 @RestController
-@RequestMapping("/MobRechargeApp/v1")
+@RequestMapping("/mobRechargeApp/v1")
 
 public class BankAccountController {
 	@Autowired
@@ -68,7 +68,7 @@ public class BankAccountController {
 	}
 	
 
-	@PutMapping("/BankAccounts/{id}")
+	@PutMapping("/bankAccount/{id}")
 	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id, @RequestBody BankAccount bankAccount) {
 		System.out.println(bankAccount);
 		try {

@@ -16,10 +16,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Plan {
 	
+<<<<<<< Updated upstream
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private int id;
 	
+=======
+>>>>>>> Stashed changes
 	private float price;
 	
 	private int validity;
@@ -35,13 +38,33 @@ public class Plan {
 	
 	@UpdateTimestamp
 	private Date updatedAt;
+	public Offer getOffer() {
+		return offer;
+	}
 
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+<<<<<<< Updated upstream
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+=======
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	private int planId;
+	
+	public int getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(int planId) {
+		this.planId = planId;
+>>>>>>> Stashed changes
 	}
 
 	public float getPrice() {

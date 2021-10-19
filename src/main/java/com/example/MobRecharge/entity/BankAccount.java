@@ -21,7 +21,12 @@ public class BankAccount {
 	private String holderName;
 	private int Number;
 	private float balance;
+	@CreationTimestamp
+	private Date createdAt;
+	@UpdateTimestamp
+	private Date updatedAt;
 	
+<<<<<<< Updated upstream
 	@CreationTimestamp
 	private Date createdAt;
 	@UpdateTimestamp
@@ -29,9 +34,35 @@ public class BankAccount {
 	
 	public float getAccountBalance() {
 		return balance;
+=======
+	@ManyToOne
+	private User userId;
+	
+	public String getHolderName() {
+		return holderName;
 	}
-	public void setAccountBalance(float accountBalance) {
-		this.balance = accountBalance;
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
+	
+	public float getBalance() {
+		return balance;
+	}
+	public void setBalance(float balance) {
+		this.balance = balance;
+	}
+	public User getUserId() {
+		return userId;
+>>>>>>> Stashed changes
+	}
+	public void setUserId(User userId) {
+		this.userId = userId;
 	}
 	public Integer getAccountId() {
 		return accountId;
@@ -45,6 +76,7 @@ public class BankAccount {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
+<<<<<<< Updated upstream
 	public String getAccountHolder() {
 		return holderName;
 	}
@@ -57,6 +89,8 @@ public class BankAccount {
 	public void setAccountNumber(int number) {
 		this.Number = number;
 	}
+=======
+>>>>>>> Stashed changes
 	public Date getCreatedAt() {
 		return createdAt;
 	}
