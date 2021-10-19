@@ -1,12 +1,16 @@
 package com.example.MobRecharge.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -24,6 +28,18 @@ public class User {
 	Date dateOfBirth;
 	String Gender;
 	boolean isAdmin;
+	
+	@ManyToMany
+	@JoinTable(name= "plans_users")
+	private Set<Plan> plans = new HashSet<>();
+	public Set<Plan> getPlans() {
+		return plans;
+	}
+
+	public void setPlans(Set<Plan> plans) {
+		this.plans = plans;
+	}
+
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)
 	private Date createdAt;

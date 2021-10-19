@@ -2,10 +2,12 @@ package com.example.MobRecharge.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,15 +18,35 @@ public class Transaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private Integer id;
 	private float amount;
-	private Date date;
-	private Status status;
 	private ModOfPayment modOfPayment;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private User userId;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private Plan planId;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private BankAccount accountId;
+	
 	@CreationTimestamp
 	private Date createdAt;
 	@UpdateTimestamp
 	private Date updatedAt;
 	public Integer getId() {
 		return id;
+	}
+	public Plan getPlanId() {
+		return planId;
+	}
+	public void setPlanId(Plan planId) {
+		this.planId = planId;
+	}
+	public BankAccount getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(BankAccount accountId) {
+		this.accountId = accountId;
 	}
 	public void setId(Integer id) {
 		this.id = id;
@@ -34,18 +56,6 @@ public class Transaction {
 	}
 	public void setAmount(float amount) {
 		this.amount = amount;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public Status getStatus() {
-		return status;
-	}
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 	public ModOfPayment getModOfPayment() {
 		return modOfPayment;
@@ -64,6 +74,12 @@ public class Transaction {
 	}
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public User getUserId() {
+		return userId;
+	}
+	public void setUserId(User userId) {
+		this.userId = userId;
 	}
 	
 }
