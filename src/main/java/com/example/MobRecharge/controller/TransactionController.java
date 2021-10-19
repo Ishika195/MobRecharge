@@ -21,12 +21,12 @@ import com.example.MobRecharge.service.TransactionService;
 public class TransactionController {
    @Autowired
    TransactionService transactionService;
-   @PostMapping("/users/transaction")
+   @PostMapping("/user/transaction")
    String getTransaction(@RequestBody Transaction transaction) {
 	   
 	   return "Successfully done";
    }
-   @GetMapping("/users/transaction/{id}")
+   @GetMapping("/user/transaction/{id}")
    ResponseEntity<Transaction> getTransactionDetail(@PathVariable Integer id) {
 	   
 	   try{

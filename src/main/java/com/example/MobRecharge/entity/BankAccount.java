@@ -18,9 +18,9 @@ public class BankAccount {
 	private Integer accountId;
 	
 	private String bankName;
-	private String accountHolder;
-	private int accountNumber;
-	private float accountBalance;
+	private String holderName;
+	private int Number;
+	private float balance;
 	
 	@CreationTimestamp
 	private Date createdAt;
@@ -28,10 +28,10 @@ public class BankAccount {
 	private Date updatedAt;
 	
 	public float getAccountBalance() {
-		return accountBalance;
+		return balance;
 	}
 	public void setAccountBalance(float accountBalance) {
-		this.accountBalance = accountBalance;
+		this.balance = accountBalance;
 	}
 	public Integer getAccountId() {
 		return accountId;
@@ -46,16 +46,16 @@ public class BankAccount {
 		this.bankName = bankName;
 	}
 	public String getAccountHolder() {
-		return accountHolder;
+		return holderName;
 	}
-	public void setAccountHolder(String accountHolder) {
-		this.accountHolder = accountHolder;
+	public void setAccountHolder(String holderName) {
+		this.holderName = holderName;
 	}
 	public int getAccountNumber() {
-		return accountNumber;
+		return Number;
 	}
-	public void setAccountNumber(int accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setAccountNumber(int number) {
+		this.Number = number;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
