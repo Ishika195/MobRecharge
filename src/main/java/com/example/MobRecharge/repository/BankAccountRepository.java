@@ -11,5 +11,5 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Intege
 
 	BankAccount findByAccountId(Integer id);
 
-    
+    BankAccount findByNumber(int number);
 }

@@ -35,7 +35,7 @@ public class BankAccountService {
 		  BankAccount bankAccount = new BankAccount();
 		  bankAccount.setAccountBalance(bankAccountRequest.getBalance());
 		  bankAccount.setAccountHolder(bankAccountRequest.getHolderName());
-		  bankAccount.setAccountNumber(bankAccountRequest.getNumber());
+		  bankAccount.setNumber(bankAccountRequest.getNumber());
 		  bankAccount.setUser(user);
 		  
 		  return  bankAccountRepository.save(bankAccount);
@@ -74,8 +74,8 @@ public class BankAccountService {
 			throw new RuntimeException("Bank Account not found");
 		}
 	
-		if(bankAccount.getAccountNumber()!=0) {
-			exsistingBankAccount.setAccountNumber(bankAccount.getAccountNumber());
+		if(bankAccount.getNumber()!=0) {
+			exsistingBankAccount.setNumber(bankAccount.getNumber());
 		}
 		
 		if(bankAccount.getAccountHolder()!= null) {

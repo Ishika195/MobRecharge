@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.MobRecharge.entity.Plan;
 
 public interface PlanRepository extends JpaRepository<Plan, Integer>  {
-
+	Plan findByPlanId(int planId);
 }

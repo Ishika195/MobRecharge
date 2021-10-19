@@ -37,12 +37,12 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/user")
 	ResponseEntity<List<User>> getAllUsers() {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
 	}
 	
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/user/{id}")
 	ResponseEntity<String> deleteUser(@PathVariable Integer id) {
 		try {
 			userService.deleteUser(id);
@@ -54,7 +54,7 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping("/users/{id}")
+	@PutMapping("/user/{id}")
 	ResponseEntity<User> updateUserProfile(@PathVariable int id, @RequestBody User user) {
 		System.out.println(user);
 		try {

@@ -29,8 +29,16 @@ public class Plan {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
-	private int id;
+	private int planId;
 	
+	public int getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(int planId) {
+		this.planId = planId;
+	}
+
 	private float price;
 	
 	private int validity;
@@ -50,13 +58,6 @@ public class Plan {
 	@UpdateTimestamp
 	private Date updatedAt;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public float getPrice() {
 		return price;

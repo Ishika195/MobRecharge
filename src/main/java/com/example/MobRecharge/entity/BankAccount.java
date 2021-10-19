@@ -20,7 +20,7 @@ public class BankAccount {
 	
 	private String bankName;
 	private String holderName;
-	private int Number;
+	private int number;
 	private float balance;
 	
 	@ManyToOne
@@ -33,10 +33,10 @@ public class BankAccount {
 		this.holderName = holderName;
 	}
 	public int getNumber() {
-		return Number;
+		return number;
 	}
 	public void setNumber(int number) {
-		Number = number;
+		this.number = number;
 	}
 	public float getBalance() {
 		return balance;
@@ -79,12 +79,7 @@ public class BankAccount {
 	public void setAccountHolder(String holderName) {
 		this.holderName = holderName;
 	}
-	public int getAccountNumber() {
-		return Number;
-	}
-	public void setAccountNumber(int number) {
-		this.Number = number;
-	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
