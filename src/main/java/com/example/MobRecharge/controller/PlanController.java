@@ -23,7 +23,7 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.PlanService;
 
 @RestController
-@RequestMapping("/mobRechargeApp/v1/")
+@RequestMapping("/mobrecharge/v1/")
 public class PlanController {
 	@Autowired
 	PlanService planService;

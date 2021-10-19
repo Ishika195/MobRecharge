@@ -24,7 +24,7 @@ import com.example.MobRecharge.service.BankAccountService;
 import com.example.MobRecharge.service.UserService;
 
 @RestController
-@RequestMapping("/mobRechargeApp/v1")
+@RequestMapping("/mobrecharge/v1")
 public class UserController {
 	@Autowired
 	UserService userService;
