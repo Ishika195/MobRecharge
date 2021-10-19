@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.MobRecharge.dto.PlanRequest;
 import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
@@ -47,9 +48,9 @@ public class PlanController {
 	}
 
 	@PostMapping("plan")
-	ResponseEntity<String> createPlan(@RequestBody Plan plan) {
+	ResponseEntity<String> createPlan(@RequestBody PlanRequest planRequest) {
 		try {
-			planService.createPlan(plan);
+			planService.createPlan(planRequest);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Plan Saved");
 		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);

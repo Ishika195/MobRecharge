@@ -8,20 +8,37 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MobRecharge.dto.BankAccountRequest;
 import com.example.MobRecharge.entity.BankAccount;
+import com.example.MobRecharge.entity.User;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.repository.BankAccountRepository;
+import com.example.MobRecharge.repository.UserRepository;
 
 @Service
 public class BankAccountService {
       @Autowired
       BankAccountRepository bankAccountRepository;
-	  public BankAccount addBankAccount(BankAccount bankAccount) {
-		  if(bankAccount==null) {
+      
+      @Autowired
+      UserRepository userRepository;
+      
+	  public BankAccount addBankAccount(BankAccountRequest bankAccountRequest) {
+		  if(bankAccountRequest==null) {
 				throw new RuntimeException("Empty object");
-			}
-		return  bankAccountRepository.save(bankAccount);
+		}
+		  User user = userRepository.findByUserId(bankAccountRequest.getUserId());
+		  if(user==null) {
+			  throw new ResourceNotFoundException("User Not Found");
+		  }
+		  BankAccount bankAccount = new BankAccount();
+		  bankAccount.setAccountBalance(bankAccountRequest.getBalance());
+		  bankAccount.setAccountHolder(bankAccountRequest.getHolderName());
+		  bankAccount.setAccountNumber(bankAccountRequest.getNumber());
+		  bankAccount.setUser(user);
+		  
+		  return  bankAccountRepository.save(bankAccount);
 	 
 	}
       public BankAccount getAccount(int id) {

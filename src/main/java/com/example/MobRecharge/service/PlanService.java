@@ -7,15 +7,21 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MobRecharge.dto.PlanRequest;
+import com.example.MobRecharge.entity.Offer;
 import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
+import com.example.MobRecharge.repository.OfferRepository;
 import com.example.MobRecharge.repository.PlanRepository;
 
 @Service
 public class PlanService {
 	@Autowired
 	PlanRepository planRepository;
+	
+	@Autowired
+	OfferRepository offerRepository;
 
 	public List<Plan> getAllPlans() {
 		return planRepository.findAll();
@@ -28,10 +34,19 @@ public class PlanService {
 		planRepository.deleteById(id);
 	}
 
-	public Plan createPlan(Plan plan) {
-		if (plan == null) {
+	public Plan createPlan(PlanRequest planRequest) {
+		if (planRequest == null) {
 			throw new InvalidArguementsException("Empty Object");
 		}
+		Offer offer = offerRepository.findByOfferId(planRequest.getOfferId());
+		Plan plan = new Plan();
+		plan.setCallMinutes(planRequest.getCallMinutes());
+		plan.setValidity(planRequest.getValidity());
+		plan.setData(planRequest.getData());
+		plan.setPrice(planRequest.getPrice());
+		plan.setSms(planRequest.getSms());
+		plan.setOffer(offer);
+		
 		return planRepository.save(plan);
 	}
 

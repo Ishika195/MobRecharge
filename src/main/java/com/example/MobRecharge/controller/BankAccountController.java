@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.MobRecharge.dto.BankAccountRequest;
 import com.example.MobRecharge.entity.BankAccount;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
@@ -29,7 +30,7 @@ public class BankAccountController {
 	BankAccountService bankAccountService;
 
 	@PostMapping("/bankAccount")
-	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccount bankaccount) {
+	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccountRequest bankaccount) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.addBankAccount(bankaccount));
 		} catch (InvalidArguementsException exc) {
