@@ -2,10 +2,13 @@ package com.example.MobRecharge.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,6 +19,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Plan {
 	
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private int id;
@@ -29,6 +40,9 @@ public class Plan {
 	private int callMinutes;
 	
 	private float data;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Offer offer;
 	
 	@CreationTimestamp
 	private Date createdAt;
