@@ -1,9 +1,14 @@
 package com.example.MobRecharge.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class LoginRequest {
+	@NotBlank(message = "Username is mandatory")
 	private String username;
 
-	
+	@NotBlank(message = "Please enter a password")
+	@Size(min = 8, max = 20)
 	private String password;
 
 	public String getUsername() {
