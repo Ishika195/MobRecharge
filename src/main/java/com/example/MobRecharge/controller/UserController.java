@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class UserController {
 	BankAccountService bankAccountService;
 
 	@PostMapping("/user")
+	@PreAuthorize("hasRole('USER')")
 	ResponseEntity<String> addNewUser(@RequestBody User user) {
 		try {
 			Long id = userService.saveUser(user);
@@ -43,11 +45,13 @@ public class UserController {
 	}
 
 	@GetMapping("/user")
+	@PreAuthorize("hasRole('ADMIN')")
 	ResponseEntity<List<User>> getAllUsers() {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
 	}
 
 	@DeleteMapping("/user/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
 			userService.deleteUser(id);
@@ -60,6 +64,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/account/{id}")
+	@PreAuthorize("hasRole('USER')")
 	ResponseEntity<List<BankAccount>> getUserAccounts(@PathVariable int id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAllAccountByUser(id));
@@ -71,6 +76,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/plan/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<List<Plan>> getUserPlans(@PathVariable Long id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(userService.getAllPlans(id));
@@ -82,6 +88,7 @@ public class UserController {
 	}
 
 	@PutMapping("/user/{id}")
+	@PreAuthorize("hasRole('USER') ")
 	ResponseEntity<User> updateUserProfile(@PathVariable Long id, @RequestBody User user) {
 		System.out.println(user);
 		try {

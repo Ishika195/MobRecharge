@@ -10,8 +10,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+
 @Entity
 public class BankAccount {
 	@Id
@@ -22,7 +21,6 @@ public class BankAccount {
 	private String holderName;
 	private int number;
 	private float balance;
-	
 	@ManyToOne
 	private User userId;
 	

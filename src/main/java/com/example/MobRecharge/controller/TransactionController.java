@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class TransactionController {
 	TransactionService transactionService;
 	
 	@GetMapping("/user/transaction/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<List<Transaction>>getTransactionHistory(@PathVariable Integer id){
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(transactionService.transactionHistory(id));
@@ -37,6 +39,7 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/transaction/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<Transaction> getTransactionDetail(@PathVariable Integer id) {
 
 		try {
@@ -49,6 +52,7 @@ public class TransactionController {
 	}
 
 	@PostMapping("/user/transaction/makepayment")
+	@PreAuthorize("hasRole('USER')")
 	ResponseEntity<Transaction> makePayment(@RequestBody TransactionRequest transactionRequest) {
 		try {
 			Transaction transaction = transactionService.makePayment(transactionRequest);
