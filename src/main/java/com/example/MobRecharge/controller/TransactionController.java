@@ -20,7 +20,7 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.TransactionService;
 
 @RestController
-@RequestMapping("/mobRechargeApp/v1")
+@RequestMapping("/mobrecharge/v1")
 public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
@@ -48,7 +48,7 @@ public class TransactionController {
 		}
 	}
 
-	@PostMapping("/user/transaction/makePayment")
+	@PostMapping("/user/transaction/makepayment")
 	ResponseEntity<Transaction> makePayment(@RequestBody TransactionRequest transactionRequest) {
 		try {
 			Transaction transaction = transactionService.makePayment(transactionRequest);

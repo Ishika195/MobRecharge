@@ -23,13 +23,13 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.BankAccountService;
 
 @RestController
-@RequestMapping("/mobRechargeApp/v1")
+@RequestMapping("/mobrecharge/v1")
 
 public class BankAccountController {
 	@Autowired
 	BankAccountService bankAccountService;
 
-	@PostMapping("/bankAccount")
+	@PostMapping("/account")
 	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccountRequest bankaccount) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.addBankAccount(bankaccount));
@@ -38,14 +38,14 @@ public class BankAccountController {
 		}
 	}
 
-	@GetMapping("/bankAccount")
+	@GetMapping("/account")
 	ResponseEntity<List<BankAccount>> getAllAccounts() {
 		List<BankAccount> accounts= bankAccountService.getAllAccounts();
 			return ResponseEntity.status(HttpStatus.OK).body(accounts);
 		
 	}
 
-	@GetMapping("/bankAccount/{id}")
+	@GetMapping("/account/{id}")
 	ResponseEntity<BankAccount> getAccount(@PathVariable Integer id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAccount(id));
@@ -56,7 +56,7 @@ public class BankAccountController {
 		}
 	}
 
-	@DeleteMapping("/bankAccount/{id}")
+	@DeleteMapping("/account/{id}")
 	ResponseEntity<String> deleteAccount(@PathVariable Integer id) {
 		try {
 			bankAccountService.deleteAccount(id);
@@ -69,7 +69,7 @@ public class BankAccountController {
 	}
 	
 
-	@PutMapping("/bankAccount/{id}")
+	@PutMapping("/account/{id}")
 	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id, @RequestBody BankAccount bankAccount) {
 		System.out.println(bankAccount);
 		try {

@@ -22,7 +22,7 @@ import com.example.MobRecharge.exceptions.ResourceNotFoundException;
 import com.example.MobRecharge.service.OfferService;
 
 @RestController
-@RequestMapping("/mobRechargeApp/v1")
+@RequestMapping("/mobrecharge/v1")
 public class OfferController {
 	@Autowired
 	OfferService offerService;
