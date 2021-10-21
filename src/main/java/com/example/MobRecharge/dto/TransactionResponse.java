@@ -2,7 +2,6 @@ package com.example.MobRecharge.dto;
 
 import java.util.Date;
 
-import com.example.MobRecharge.entity.BankAccount;
 import com.example.MobRecharge.entity.ModOfPayment;
 import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.entity.User;
@@ -18,6 +17,16 @@ public class TransactionResponse {
 	private float balance;
 	private int accountId;
 	private String bankName;
+	private float amountAfterDiscount;
+	private Long mobileNumber;
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -79,6 +88,13 @@ public class TransactionResponse {
 	}
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
+	}
+	public float getAmountAfterDiscount() {
+		return amountAfterDiscount;
+	}
+
+	public void setAmountAfterDiscount(float amountAfterDiscount) {
+		this.amountAfterDiscount = amountAfterDiscount;
 	}
 	private Date createdAt;
 }

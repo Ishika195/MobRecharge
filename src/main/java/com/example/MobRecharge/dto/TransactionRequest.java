@@ -1,5 +1,8 @@
 package com.example.MobRecharge.dto;
 
+
+
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -8,7 +11,6 @@ import com.example.MobRecharge.entity.ModOfPayment;
 
 public class TransactionRequest {
 	private Integer id;
-
 	@NotBlank(message = "Please enter a valid mode of payment")
 	private ModOfPayment modOfPayment;
 	
@@ -17,10 +19,27 @@ public class TransactionRequest {
 	
 	@NotNull
 	private int planId;
-	
+
 	@NotNull
 	@Positive
 	private int accountNumber;
+	
+	@Digits(integer = 10, fraction = 0)
+	@Positive
+	private Long mobileNumber;
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	@NotNull
+	@Positive
+	private int accountNumber;
+
 
 	public Integer getId() {
 		return id;
