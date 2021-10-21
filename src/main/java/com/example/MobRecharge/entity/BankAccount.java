@@ -34,7 +34,6 @@ public class BankAccount {
 	@NotNull
 	@PositiveOrZero
 	private float balance;
-	
 	@ManyToOne
 	@NotNull
 	private User userId;

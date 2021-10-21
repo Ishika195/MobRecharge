@@ -22,7 +22,10 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
