@@ -1,16 +1,32 @@
 package com.example.MobRecharge.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 public class PlanRequest {
+	@NotNull
+	@Positive
 	private float price;
 	
+	@NotNull
+	@Positive
 	private int validity;
 	
+	@NotNull
+	@Positive
 	private int sms;
 	
+	@NotNull
+	@Positive
 	private int callMinutes;
 	
+	@NotNull
+	@Positive
 	private float data;
 	
+	@NotNull
+	@NotNull
+	@Positive
 	private int offerId;
 
 	public float getPrice() {
