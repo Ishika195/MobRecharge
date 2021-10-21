@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MobRecharge.dto.TransactionRequest;
+import com.example.MobRecharge.dto.TransactionResponse;
 import com.example.MobRecharge.entity.BankAccount;
 import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.entity.Transaction;
@@ -23,72 +24,70 @@ import com.example.MobRecharge.repository.UserRepository;
 
 @Service
 public class TransactionService {
-     @Autowired
-     TransactionRepository transactionRepository;
-     
-     @Autowired
-     UserRepository userRepository;
-     
-     @Autowired
-     PlanRepository planRepository;
-     
-     @Autowired
-     BankAccountRepository bankAccountRepository;
-     
-    public List<Transaction> transactionHistory(Integer id){
-    	if(id<=0) {
+	@Autowired
+	TransactionRepository transactionRepository;
+
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	PlanRepository planRepository;
+
+	@Autowired
+	BankAccountRepository bankAccountRepository;
+
+	public List<Transaction> transactionHistory(Integer id) {
+		if (id <= 0) {
 			throw new InvalidArguementsException("Invalid Id");
 		}
-    	return transactionRepository.findByUserId(id);
-    }
-     
-	public Transaction getTransactionDetail(Integer id) {
-		if(id<=0) {
+		return transactionRepository.findByUserId(id);
+	}
+
+	public TransactionResponse getTransactionDetail(Integer id) {
+		if (id <= 0) {
 			throw new InvalidArguementsException("Invalid Id");
 		}
 		Transaction transaction;
 		try {
-			transaction=transactionRepository.getById(id);
-		}catch(EntityNotFoundException ex) {
-  		  throw new ResourceNotFoundException("Bank Account Not Found");
-  	  }
-		return transaction;
+			transaction = transactionRepository.getById(id);
+		} catch (EntityNotFoundException ex) {
+			throw new ResourceNotFoundException("Bank Account Not Found");
+		}
+		return convertTransactionToTrasactionResponse(transaction);
 	}
-	
+
 	@Transactional
-	public Transaction makePayment(TransactionRequest transactionRequest) {
-	
-		if(transactionRequest==null) {
+	public TransactionResponse makePayment(TransactionRequest transactionRequest) {
+
+		if (transactionRequest == null) {
 			throw new InvalidArguementsException("Empty transaction request");
 		}
 		User user = userRepository.findByUserId(transactionRequest.getUserId());
-		if(user==null) {
-			 throw new ResourceNotFoundException("User not found");
+		if (user == null) {
+			throw new ResourceNotFoundException("User not found");
 		}
 		Plan plan = planRepository.findByPlanId(transactionRequest.getPlanId());
-		
-		if(plan==null) {
-			 throw new ResourceNotFoundException("plan not found");
+
+		if (plan == null) {
+			throw new ResourceNotFoundException("plan not found");
 		}
 		BankAccount bankAccount = bankAccountRepository.findByNumber(transactionRequest.getAccountNumber());
-		
-		if(bankAccount==null) {
-			 throw new ResourceNotFoundException("account not found");
+
+		if (bankAccount == null) {
+			throw new ResourceNotFoundException("account not found");
 		}
-		
-		if(bankAccount.getBalance()<plan.getPrice()) {
+
+		if (bankAccount.getBalance() < plan.getPrice()) {
 			throw new RuntimeException("Not enough balance");
 		}
-		
-		
+
 		Transaction transaction = new Transaction();
 		transaction.setAmount(plan.getPrice());
 		transaction.setModOfPayment(transactionRequest.getModOfPayment());
 		transaction.setUserId(user);
 		transaction.setPlanId(plan);
 		transaction.setAccountId(bankAccount);
-		
-		
+
 		bankAccount.setBalance(bankAccount.getBalance() - plan.getPrice());
 		Set<Plan> plans = user.getPlans();
 		plans.add(plan);
@@ -96,8 +95,25 @@ public class TransactionService {
 		userRepository.save(user);
 		bankAccountRepository.save(bankAccount);
 		transactionRepository.save(transaction);
-		
-		return transaction;
-		
+
+		return convertTransactionToTrasactionResponse(transaction);
+
+	}
+
+	TransactionResponse convertTransactionToTrasactionResponse(Transaction transaction) {
+
+		TransactionResponse transactionResponse = new TransactionResponse();
+		transactionResponse.setAccountId(transaction.getAccountId().getAccountId());
+		transactionResponse.setBankName(transaction.getAccountId().getBankName());
+		transactionResponse.setCreatedAt(transaction.getCreatedAt());
+		transactionResponse.setAmount(transaction.getAmount());
+		transactionResponse.setBalance(transaction.getAccountId().getBalance());
+		transactionResponse.setModOfPayment(transaction.getModOfPayment());
+		transactionResponse.setId(transaction.getId());
+		transactionResponse.setPlanId(transaction.getPlanId());
+		transactionResponse.setUsername(transaction.getUserId().getUsername());
+
+		return transactionResponse;
+
 	}
 }
