@@ -13,6 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -25,9 +30,45 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long userId;
+
 	String firstName;
+
+	@NotBlank(message = "Username is mandatory")
 	String username;
+
+	String lastName;
+
+	@NotBlank(message = "Please enter a password")
+	@Size(min = 8, max = 20)
+	String password;
+
+	@NotBlank(message = "Email is mandatory")
+	@Email
+	String email;
 	
+	@Digits(integer = 10, fraction = 0)
+	@Positive
+	Long mobileNumber;
+
+	Date dateOfBirth;
+
+	String Gender;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(name = "plans_users")
+	private Set<Plan> plans = new HashSet<>();
+
+	@CreationTimestamp
+	@Column(name = "created_at", updatable = false)
+	private Date createdAt;
+
+	@UpdateTimestamp
+	private Date updatedAt;
+
 	public User() {
 	}
 
@@ -35,6 +76,14 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+	public Set<Plan> getPlans() {
+		return plans;
+	}
+
+	public void setPlans(Set<Plan> plans) {
+		this.plans = plans;
 	}
 
 	public String getUsername() {
@@ -52,36 +101,6 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	String lastName;
-	String password;
-	String email;
-	Long mobileNumber;
-	Date dateOfBirth;
-	String Gender;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "user_roles", 
-				joinColumns = @JoinColumn(name = "user_id"), 
-				inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
-	
-	@ManyToMany
-	@JoinTable(name= "plans_users")
-	private Set<Plan> plans = new HashSet<>();
-	public Set<Plan> getPlans() {
-		return plans;
-	}
-
-	public void setPlans(Set<Plan> plans) {
-		this.plans = plans;
-	}
-
-	@CreationTimestamp
-	@Column(name = "created_at", updatable = false)
-	private Date createdAt;
-	@UpdateTimestamp
-	private Date updatedAt;
 
 	public Long getUserId() {
 		return userId;

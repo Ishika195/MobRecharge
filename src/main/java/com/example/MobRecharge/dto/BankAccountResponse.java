@@ -1,66 +1,55 @@
 package com.example.MobRecharge.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
-
-public class BankAccountRequest {
-	@NotBlank(message = "Bank Name is mandatory")
+public class BankAccountResponse {
+private Integer accountId;
+	
 	private String bankName;
-
-	@NotBlank(message = "Account holder Name is mandatory")
 	private String holderName;
-
-	@NotNull
-	@Positive
-	private int Number;
-
-	@NotNull
-	@PositiveOrZero
+	private int number;
 	private float balance;
-
-	@NotNull
 	private Long userId;
-
+	private String username;
+	
+	public Integer getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
 	public String getBankName() {
 		return bankName;
 	}
-
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-
 	public String getHolderName() {
 		return holderName;
 	}
-
 	public void setHolderName(String holderName) {
 		this.holderName = holderName;
 	}
-
 	public int getNumber() {
-		return Number;
+		return number;
 	}
-
 	public void setNumber(int number) {
-		Number = number;
+		this.number = number;
 	}
-
 	public float getBalance() {
 		return balance;
 	}
-
 	public void setBalance(float balance) {
 		this.balance = balance;
 	}
-
 	public Long getUserId() {
 		return userId;
 	}
-
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

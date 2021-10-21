@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.MobRecharge.dto.BankAccountRequest;
+import com.example.MobRecharge.dto.BankAccountResponse;
 import com.example.MobRecharge.entity.BankAccount;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
@@ -48,8 +49,10 @@ public class BankAccountController {
 	}
 
 	@GetMapping("/account/{id}")
+
 	@PreAuthorize("hasRole('USER')")
-	ResponseEntity<BankAccount> getAccount(@PathVariable Integer id) {
+	ResponseEntity<BankAccountResponse> getAccount(@PathVariable Integer id) {
+
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAccount(id));
 		} catch (ResourceNotFoundException exc) {

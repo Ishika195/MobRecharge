@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MobRecharge.dto.BankAccountRequest;
+import com.example.MobRecharge.dto.BankAccountResponse;
 import com.example.MobRecharge.entity.BankAccount;
 import com.example.MobRecharge.entity.User;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
@@ -43,7 +44,7 @@ public class BankAccountService {
 
 	}
 
-	public BankAccount getAccount(int id) {
+	public BankAccountResponse getAccount(int id) {
 		if (id <= 0) {
 			throw new InvalidArguementsException("Invalid Id");
 		}
@@ -53,8 +54,20 @@ public class BankAccountService {
 		} catch (EntityNotFoundException ex) {
 			throw new ResourceNotFoundException("Bank Account Not Found");
 		}
-		return bankAccount;
+		return convertBankAccountToBankAccountResponse(bankAccount);
 
+	}
+	
+	BankAccountResponse convertBankAccountToBankAccountResponse(BankAccount bankAccount) {
+		BankAccountResponse bankAccountResponse = new BankAccountResponse();
+		bankAccountResponse.setAccountId(bankAccount.getAccountId());
+		bankAccountResponse.setBalance(bankAccount.getBalance());
+		bankAccountResponse.setBankName(bankAccount.getBankName());
+		bankAccountResponse.setHolderName(bankAccount.getHolderName());
+		bankAccountResponse.setNumber(bankAccount.getNumber());
+		bankAccountResponse.setUserId(bankAccount.getUserId().getUserId());
+		bankAccountResponse.setUsername(bankAccount.getUserId().getUsername());
+		return bankAccountResponse;
 	}
 
 	public List<BankAccount> getAllAccounts() {

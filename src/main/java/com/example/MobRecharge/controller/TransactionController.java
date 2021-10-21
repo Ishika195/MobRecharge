@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.MobRecharge.dto.TransactionRequest;
+import com.example.MobRecharge.dto.TransactionResponse;
 import com.example.MobRecharge.entity.Transaction;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
@@ -40,7 +41,8 @@ public class TransactionController {
 	
 	@GetMapping("/transaction/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	ResponseEntity<Transaction> getTransactionDetail(@PathVariable Integer id) {
+	ResponseEntity<TransactionResponse> getTransactionDetail(@PathVariable Integer id) {
+
 
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(transactionService.getTransactionDetail(id));
@@ -53,10 +55,11 @@ public class TransactionController {
 
 	@PostMapping("/user/transaction/makepayment")
 	@PreAuthorize("hasRole('USER')")
-	ResponseEntity<Transaction> makePayment(@RequestBody TransactionRequest transactionRequest) {
+	ResponseEntity<TransactionResponse> makePayment(@RequestBody TransactionRequest transactionRequest) {
+
 		try {
-			Transaction transaction = transactionService.makePayment(transactionRequest);
-			return ResponseEntity.status(HttpStatus.OK).body(transaction);
+			TransactionResponse transactionResponse = transactionService.makePayment(transactionRequest);
+			return ResponseEntity.status(HttpStatus.OK).body(transactionResponse);
 		} catch (ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, exc.getMessage(), exc);
 		} catch (InvalidArguementsException exc) {

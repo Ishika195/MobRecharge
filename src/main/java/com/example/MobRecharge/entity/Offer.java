@@ -8,23 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Offer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer offerId;
+
+	@NotNull
+	@PositiveOrZero
 	float discount;
+
+	@NotNull
+	@PositiveOrZero
 	float minAmount;
+
+	@NotNull
+	@Positive
 	float maxAmount;
+
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false)
 	private Date createdAt;
-	@LastModifiedDate
+
+	@UpdateTimestamp
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
