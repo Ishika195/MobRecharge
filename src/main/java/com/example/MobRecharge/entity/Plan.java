@@ -8,7 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,21 +17,42 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Plan {
-	
-	public Offer getOffer() {
-		return offer;
-	}
-
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int planId;
-	
+
+	@NotNull
+	@Positive
+	private float price;
+
+	@NotNull
+	@Positive
+	private int validity;
+
+	@NotNull
+	@Positive
+	private int sms;
+
+	@NotNull
+	@Positive
+	private int callMinutes;
+
+	@NotNull
+	@Positive
+	private float data;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Offer offer;
+
+	@CreationTimestamp
+	private Date createdAt;
+
+	@UpdateTimestamp
+	private Date updatedAt;
+
 	public int getPlanId() {
 		return planId;
 	}
@@ -39,25 +61,13 @@ public class Plan {
 		this.planId = planId;
 	}
 
-	private float price;
-	
-	private int validity;
-	
-	private int sms;
-	
-	private int callMinutes;
-	
-	private float data;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Offer offer;
-	
-	@CreationTimestamp
-	private Date createdAt;
-	
-	@UpdateTimestamp
-	private Date updatedAt;
+	public Offer getOffer() {
+		return offer;
+	}
 
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
 
 	public float getPrice() {
 		return price;
@@ -114,5 +124,5 @@ public class Plan {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+
 }
