@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.MobRecharge.dto.TransactionRequest;
 import com.example.MobRecharge.dto.TransactionResponse;
 import com.example.MobRecharge.entity.BankAccount;
+import com.example.MobRecharge.entity.Offer;
 import com.example.MobRecharge.entity.Plan;
 import com.example.MobRecharge.entity.Transaction;
 import com.example.MobRecharge.entity.User;
@@ -80,13 +81,25 @@ public class TransactionService {
 		if (bankAccount.getBalance() < plan.getPrice()) {
 			throw new RuntimeException("Not enough balance");
 		}
+		float totalAmount = 0.f;
 
+		if (plan.getOffer() != null) {
+			Offer offer = plan.getOffer();
+			if (plan.getPrice() > offer.getMinAmount()) {
+				 totalAmount = plan.getPrice() - plan.getPrice() * (offer.getDiscount() / 100);
+				if (totalAmount > offer.getMaxAmount()) {
+					totalAmount = offer.getMaxAmount();
+				}
+			}
+
+		}
 		Transaction transaction = new Transaction();
-		transaction.setAmount(plan.getPrice());
+		transaction.setAmount(totalAmount);
 		transaction.setModOfPayment(transactionRequest.getModOfPayment());
 		transaction.setUserId(user);
 		transaction.setPlanId(plan);
 		transaction.setAccountId(bankAccount);
+		transaction.setMobileNumber(transactionRequest.getMobileNumber());
 
 		bankAccount.setBalance(bankAccount.getBalance() - plan.getPrice());
 		Set<Plan> plans = user.getPlans();
@@ -106,12 +119,14 @@ public class TransactionService {
 		transactionResponse.setAccountId(transaction.getAccountId().getAccountId());
 		transactionResponse.setBankName(transaction.getAccountId().getBankName());
 		transactionResponse.setCreatedAt(transaction.getCreatedAt());
-		transactionResponse.setAmount(transaction.getAmount());
+		transactionResponse.setAmount(transaction.getPlanId().getPrice());
 		transactionResponse.setBalance(transaction.getAccountId().getBalance());
 		transactionResponse.setModOfPayment(transaction.getModOfPayment());
 		transactionResponse.setId(transaction.getId());
 		transactionResponse.setPlanId(transaction.getPlanId());
 		transactionResponse.setUsername(transaction.getUserId().getUsername());
+		transactionResponse.setMobileNumber(transaction.getMobileNumber());
+		transactionResponse.setAmountAfterDiscount(transaction.getAmount());
 
 		return transactionResponse;
 

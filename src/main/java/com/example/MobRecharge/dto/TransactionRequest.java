@@ -1,16 +1,38 @@
 package com.example.MobRecharge.dto;
 
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import com.example.MobRecharge.entity.ModOfPayment;
 
 public class TransactionRequest {
 
 	private Integer id;
+	@NotBlank
 	private ModOfPayment modOfPayment;
 	
 	private Long userId;
 	
 	private int planId;
+
+	@NotNull
+	@Positive
+	private int accountNumber;
 	
+	@Digits(integer = 10, fraction = 0)
+	@Positive
+	private Long mobileNumber;
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -26,8 +48,6 @@ public class TransactionRequest {
 	public void setModOfPayment(ModOfPayment modOfPayment) {
 		this.modOfPayment = modOfPayment;
 	}
-
-
 
 	public int getPlanId() {
 		return planId;
@@ -53,5 +73,4 @@ public class TransactionRequest {
 		this.userId = userId;
 	}
 
-	private int accountNumber;
 }
