@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class PlanController {
 	PlanService planService;
 
 	@GetMapping("plan")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<List<Plan>> getPlans() {
 		List<Plan> plans = planService.getAllPlans();
 		return ResponseEntity.status(HttpStatus.OK).body(plans);
@@ -36,6 +38,7 @@ public class PlanController {
 	}
 
 	@GetMapping("plan/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<Plan> getPlan(@PathVariable int id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(planService.getPlan(id));
@@ -48,6 +51,7 @@ public class PlanController {
 	}
 
 	@PostMapping("plan")
+	@PreAuthorize("hasRole('ADMIN')")
 	ResponseEntity<String> createPlan(@RequestBody PlanRequest planRequest) {
 		try {
 			planService.createPlan(planRequest);
@@ -56,9 +60,10 @@ public class PlanController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
 		}
 	}
-
+    
 	@DeleteMapping("plan/{id}")
-	ResponseEntity<String> createPlan(@PathVariable int id) {
+	@PreAuthorize("hasRole('ADMIN')")
+	ResponseEntity<String> deletePlan(@PathVariable int id) {
 		try {
 			planService.deletePlan(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Plan Deleted");
@@ -70,6 +75,7 @@ public class PlanController {
 	}
 
 	@PutMapping("plan/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	ResponseEntity<Plan> updatePlan(@PathVariable int id, @RequestBody Plan plan) {
 		System.out.println(plan);
 		try {

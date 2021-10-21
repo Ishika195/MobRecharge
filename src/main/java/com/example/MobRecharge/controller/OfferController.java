@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class OfferController {
 	OfferService offerService;
 
 	@GetMapping("/offer")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<List<Offer>> getAllOffers() {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(offerService.getOffers());
@@ -40,6 +42,7 @@ public class OfferController {
 
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping("/offer")
+	@PreAuthorize("hasRole('ADMIN')")
 	ResponseEntity<String> addNewOffer(@RequestBody Offer offer) {
 		try {
 			Integer id = offerService.saveOffer(offer);
@@ -53,6 +56,7 @@ public class OfferController {
 	}
 
 	@GetMapping("/offer/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	ResponseEntity<Offer> getOffer(@PathVariable Integer id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(offerService.getOffer(id));
@@ -65,6 +69,7 @@ public class OfferController {
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/offer/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	ResponseEntity<String> deleteOffer(@PathVariable Integer id) {
 		try {
 			offerService.deleteOffer(id);
@@ -77,6 +82,7 @@ public class OfferController {
 	}
 
 	@PutMapping("/offer/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	ResponseEntity<Offer> updateOffer(@PathVariable Integer id, @RequestBody Offer offer) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(offerService.updateOffer(id, offer));

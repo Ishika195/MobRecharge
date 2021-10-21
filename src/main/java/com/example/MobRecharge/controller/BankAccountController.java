@@ -31,7 +31,7 @@ public class BankAccountController {
 	BankAccountService bankAccountService;
 
 	@PostMapping("/account")
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER') ")
 	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccountRequest bankaccount) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.addBankAccount(bankaccount));
@@ -41,6 +41,7 @@ public class BankAccountController {
 	}
 
 	@GetMapping("/account")
+	@PreAuthorize("hasRole('USER') ")
 	ResponseEntity<List<BankAccount>> getAllAccounts() {
 		List<BankAccount> accounts= bankAccountService.getAllAccounts();
 			return ResponseEntity.status(HttpStatus.OK).body(accounts);
@@ -48,7 +49,10 @@ public class BankAccountController {
 	}
 
 	@GetMapping("/account/{id}")
+
+	@PreAuthorize("hasRole('USER')")
 	ResponseEntity<BankAccountResponse> getAccount(@PathVariable Integer id) {
+
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.getAccount(id));
 		} catch (ResourceNotFoundException exc) {
@@ -59,6 +63,7 @@ public class BankAccountController {
 	}
 
 	@DeleteMapping("/account/{id}")
+	@PreAuthorize("hasRole('USER')")
 	ResponseEntity<String> deleteAccount(@PathVariable Integer id) {
 		try {
 			bankAccountService.deleteAccount(id);
@@ -72,6 +77,7 @@ public class BankAccountController {
 	
 
 	@PutMapping("/account/{id}")
+	@PreAuthorize("hasRole('USER')")
 	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id, @RequestBody BankAccount bankAccount) {
 		System.out.println(bankAccount);
 		try {
