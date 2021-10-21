@@ -7,7 +7,7 @@ public class TransactionRequest {
 	private Integer id;
 	private ModOfPayment modOfPayment;
 	
-	private int userId;
+	private Long userId;
 	
 	private int planId;
 	
@@ -27,13 +27,7 @@ public class TransactionRequest {
 		this.modOfPayment = modOfPayment;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 	public int getPlanId() {
 		return planId;
@@ -43,14 +37,20 @@ public class TransactionRequest {
 		this.planId = planId;
 	}
 
-
-
 	public int getAccountNumber() {
 		return accountNumber;
 	}
 
 	public void setAccountNumber(int accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	private int accountNumber;

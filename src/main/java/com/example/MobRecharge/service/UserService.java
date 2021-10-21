@@ -18,7 +18,7 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	public Integer saveUser(User user) {
+	public Long saveUser(User user) {
 		if (user == null) {
 			throw new InvalidArguementsException("Empty Object");
 		}
@@ -30,14 +30,14 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public void deleteUser(Integer id) {
+	public void deleteUser(Long id) {
 		if (id <= 0) {
 			throw new InvalidArguementsException("Invalid Id");
 		}
 		userRepository.deleteById(id);
 	}
 
-	public User updateUser(int id, User user) {
+	public User updateUser(Long id, User user) {
 		if (id == 0 || user == null) {
 			throw new InvalidArguementsException("bad arguement");
 		}
@@ -73,7 +73,7 @@ public class UserService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Plan> getAllPlans(int id){
+	public List<Plan> getAllPlans(Long id){
 		if (id <= 0) {
 			throw new InvalidArguementsException("Invalid Id");
 		}
