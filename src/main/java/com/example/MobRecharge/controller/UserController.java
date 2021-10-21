@@ -35,7 +35,7 @@ public class UserController {
 	@PostMapping("/user")
 	ResponseEntity<String> addNewUser(@RequestBody User user) {
 		try {
-			Integer id = userService.saveUser(user);
+			Long id = userService.saveUser(user);
 			return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully with id: " + id);
 		} catch (InvalidArguementsException exc) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad arguements", exc);
@@ -48,7 +48,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/user/{id}")
-	ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+	ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
 			userService.deleteUser(id);
 			return ResponseEntity.status(HttpStatus.OK).body("User delete successfully");
@@ -71,7 +71,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/plan/{id}")
-	ResponseEntity<List<Plan>> getUserPlans(@PathVariable int id) {
+	ResponseEntity<List<Plan>> getUserPlans(@PathVariable Long id) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(userService.getAllPlans(id));
 		} catch (ResourceNotFoundException exc) {
@@ -82,7 +82,7 @@ public class UserController {
 	}
 
 	@PutMapping("/user/{id}")
-	ResponseEntity<User> updateUserProfile(@PathVariable int id, @RequestBody User user) {
+	ResponseEntity<User> updateUserProfile(@PathVariable Long id, @RequestBody User user) {
 		System.out.println(user);
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, user));

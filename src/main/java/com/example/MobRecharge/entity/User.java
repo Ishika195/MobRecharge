@@ -6,9 +6,11 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
@@ -19,15 +21,47 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer userId;
+	Long userId;
 	String firstName;
+	String username;
+	
+	public User() {
+	}
+
+	public User(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
 	String lastName;
 	String password;
 	String email;
 	Long mobileNumber;
 	Date dateOfBirth;
 	String Gender;
-	boolean isAdmin;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 	
 	@ManyToMany
 	@JoinTable(name= "plans_users")
@@ -46,11 +80,11 @@ public class User {
 	@UpdateTimestamp
 	private Date updatedAt;
 
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -110,14 +144,6 @@ public class User {
 		Gender = gender;
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -133,4 +159,5 @@ public class User {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
 }

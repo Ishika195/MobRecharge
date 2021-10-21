@@ -6,7 +6,7 @@ public class BankAccountRequest {
 	private String holderName;
 	private int Number;
 	private float balance;
-	private int userId;
+	private Long userId;
 	
 	public String getBankName() {
 		return bankName;
@@ -32,12 +32,13 @@ public class BankAccountRequest {
 	public void setBalance(float balance) {
 		this.balance = balance;
 	}
-	public int getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
 	
 
 }
