@@ -97,8 +97,8 @@ public class TransactionService {
 		transaction.setAmount(totalAmount);
 		transaction.setModOfPayment(transactionRequest.getModOfPayment());
 		transaction.setUserId(user);
-		transaction.setPlanId(plan);
-		transaction.setAccountId(bankAccount);
+		transaction.setPlan(plan);
+		transaction.setAccount(bankAccount);
 		transaction.setMobileNumber(transactionRequest.getMobileNumber());
 
 		bankAccount.setBalance(bankAccount.getBalance() - plan.getPrice());
@@ -116,14 +116,14 @@ public class TransactionService {
 	TransactionResponse convertTransactionToTrasactionResponse(Transaction transaction) {
 
 		TransactionResponse transactionResponse = new TransactionResponse();
-		transactionResponse.setAccountId(transaction.getAccountId().getAccountId());
-		transactionResponse.setBankName(transaction.getAccountId().getBankName());
+		transactionResponse.setAccountId(transaction.getAccount().getAccountId());
+		transactionResponse.setBankName(transaction.getAccount().getBankName());
 		transactionResponse.setCreatedAt(transaction.getCreatedAt());
-		transactionResponse.setAmount(transaction.getPlanId().getPrice());
-		transactionResponse.setBalance(transaction.getAccountId().getBalance());
+		transactionResponse.setAmount(transaction.getPlan().getPrice());
+		transactionResponse.setBalance(transaction.getAccount().getBalance());
 		transactionResponse.setModOfPayment(transaction.getModOfPayment());
 		transactionResponse.setId(transaction.getId());
-		transactionResponse.setPlanId(transaction.getPlanId());
+		transactionResponse.setPlan(transaction.getPlan());
 		transactionResponse.setUsername(transaction.getUserId().getUsername());
 		transactionResponse.setUserId(transaction.getUserId().getUserId());
 		transactionResponse.setMobileNumber(transaction.getMobileNumber());

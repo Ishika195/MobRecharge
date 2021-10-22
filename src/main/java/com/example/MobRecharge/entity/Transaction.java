@@ -33,11 +33,19 @@ public class Transaction {
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@NotNull
-	private Plan planId;
+	private Plan plan;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@NotNull
-	private BankAccount accountId;
+	private BankAccount account;
+
+	public BankAccount getAccount() {
+		return account;
+	}
+
+	public void setAccount(BankAccount account) {
+		this.account = account;
+	}
 
 	@CreationTimestamp
 	private Date createdAt;
@@ -62,21 +70,15 @@ public class Transaction {
 		return id;
 	}
 
-	public Plan getPlanId() {
-		return planId;
+
+	public Plan getPlan() {
+		return plan;
 	}
 
-	public void setPlanId(Plan planId) {
-		this.planId = planId;
+	public void setPlan(Plan plan) {
+		this.plan = plan;
 	}
 
-	public BankAccount getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(BankAccount accountId) {
-		this.accountId = accountId;
-	}
 
 	public void setId(Integer id) {
 		this.id = id;

@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.example.MobRecharge.entity.ModOfPayment;
 import com.example.MobRecharge.entity.Plan;
-import com.example.MobRecharge.entity.User;
 
 public class TransactionResponse {
 
@@ -12,7 +11,7 @@ public class TransactionResponse {
 	private float amount;
 	private ModOfPayment modOfPayment;
 	private Long userId;	
-	private Plan planId;
+	private Plan plan;
 	private String username;
 	private float balance;
 	private int accountId;
@@ -46,12 +45,7 @@ public class TransactionResponse {
 		this.modOfPayment = modOfPayment;
 	}
 	
-	public Plan getPlanId() {
-		return planId;
-	}
-	public void setPlanId(Plan planId) {
-		this.planId = planId;
-	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -84,17 +78,24 @@ public class TransactionResponse {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-
 	public Long getUserId() {
 		return userId;
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
 	public float getAmountAfterDiscount() {
 		return amountAfterDiscount;
 	}
 	public void setAmountAfterDiscount(float amountAfterDiscount) {
 		this.amountAfterDiscount = amountAfterDiscount;
+	}
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
 	}
 	private Date createdAt;
 }
