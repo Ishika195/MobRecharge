@@ -43,7 +43,7 @@ public class BankAccountController {
 	}
 
 	@GetMapping("/account")
-	@PreAuthorize("hasRole('USER') ")
+	@PreAuthorize("hasRole('ADMIN') ")
 	ResponseEntity<List<BankAccount>> getAllAccounts() {
 		List<BankAccount> accounts= bankAccountService.getAllAccounts();
 			return ResponseEntity.status(HttpStatus.OK).body(accounts);

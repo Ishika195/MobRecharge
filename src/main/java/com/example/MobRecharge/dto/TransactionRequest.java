@@ -9,7 +9,6 @@ import javax.validation.constraints.Positive;
 import com.example.MobRecharge.entity.ModOfPayment;
 
 public class TransactionRequest {
-	private Integer id;
 
 	private ModOfPayment modOfPayment;
 	
@@ -33,14 +32,6 @@ public class TransactionRequest {
 
 	public void setMobileNumber(Long mobileNumber) {
 		this.mobileNumber = mobileNumber;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public ModOfPayment getModOfPayment() {

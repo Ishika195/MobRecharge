@@ -18,9 +18,9 @@ import com.example.MobRecharge.entity.Transaction;
 import com.example.MobRecharge.entity.User;
 import com.example.MobRecharge.exceptions.InvalidArguementsException;
 import com.example.MobRecharge.exceptions.ResourceNotFoundException;
+import com.example.MobRecharge.repository.BankAccountRepository;
 import com.example.MobRecharge.repository.PlanRepository;
 import com.example.MobRecharge.repository.TransactionRepository;
-import com.example.MobRecharge.repository.BankAccountRepository;
 import com.example.MobRecharge.repository.UserRepository;
 
 @Service
@@ -36,6 +36,8 @@ public class TransactionService {
 
 	@Autowired
 	BankAccountRepository bankAccountRepository;
+	
+	
 
 	public List<Transaction> transactionHistory(Integer id) {
 		if (id <= 0) {
@@ -67,15 +69,21 @@ public class TransactionService {
 		if (user == null) {
 			throw new ResourceNotFoundException("User not found");
 		}
+		
 		Plan plan = planRepository.findByPlanId(transactionRequest.getPlanId());
 
 		if (plan == null) {
 			throw new ResourceNotFoundException("plan not found");
 		}
+
 		BankAccount bankAccount = bankAccountRepository.findByNumber(transactionRequest.getAccountNumber());
 
 		if (bankAccount == null) {
 			throw new ResourceNotFoundException("account not found");
+		}
+		
+		if(bankAccount.getUserId().getUserId() != transactionRequest.getUserId()) {
+			throw new RuntimeException("Wrong account number");
 		}
 
 		if (bankAccount.getBalance() < plan.getPrice()) {
@@ -86,10 +94,12 @@ public class TransactionService {
 		if (plan.getOffer() != null) {
 			Offer offer = plan.getOffer();
 			if (plan.getPrice() > offer.getMinAmount()) {
-				 totalAmount = plan.getPrice() - plan.getPrice() * (offer.getDiscount() / 100);
-				if (totalAmount > offer.getMaxAmount()) {
-					totalAmount = offer.getMaxAmount();
+				float discountPrice = plan.getPrice() * (offer.getDiscount() / 100);
+				if (discountPrice > offer.getMaxAmount()) {
+					discountPrice = offer.getMaxAmount();
 				}
+				totalAmount = plan.getPrice() - discountPrice;
+				
 			}
 
 		}
@@ -101,7 +111,7 @@ public class TransactionService {
 		transaction.setAccount(bankAccount);
 		transaction.setMobileNumber(transactionRequest.getMobileNumber());
 
-		bankAccount.setBalance(bankAccount.getBalance() - plan.getPrice());
+		bankAccount.setBalance(bankAccount.getBalance() - totalAmount);
 		Set<Plan> plans = user.getPlans();
 		plans.add(plan);
 		user.setPlans(plans);
@@ -128,7 +138,6 @@ public class TransactionService {
 		transactionResponse.setUserId(transaction.getUserId().getUserId());
 		transactionResponse.setMobileNumber(transaction.getMobileNumber());
 		transactionResponse.setAmountAfterDiscount(transaction.getAmount());
-
 
 		return transactionResponse;
 
