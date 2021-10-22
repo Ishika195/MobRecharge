@@ -8,10 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -24,7 +25,6 @@ public class Transaction {
 	@NotNull
 	@Positive
 	private float amount;
-
 	private ModOfPayment modOfPayment;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
@@ -43,6 +43,20 @@ public class Transaction {
 	private Date createdAt;
 	@UpdateTimestamp
 	private Date updatedAt;
+
+
+	@Digits(integer = 10, fraction = 0)
+	@Positive
+	@NotNull
+	private Long mobileNumber;
+	
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
 
 	public Integer getId() {
 		return id;

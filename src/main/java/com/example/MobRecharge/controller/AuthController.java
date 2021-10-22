@@ -2,6 +2,7 @@ package com.example.MobRecharge.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ import com.example.MobRecharge.repository.RoleRepository;
 import com.example.MobRecharge.repository.UserRepository;
 import com.example.MobRecharge.security.jwt.JwtUtils;
 import com.example.MobRecharge.security.services.UserDetailsImpl;
+import com.example.MobRecharge.service.RoleService;
 
 
 
@@ -52,6 +54,9 @@ public class AuthController {
 
 	@Autowired
 	JwtUtils jwtUtils;
+	
+	@Autowired
+	RoleService roleService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -97,8 +102,8 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
