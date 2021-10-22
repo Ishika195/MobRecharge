@@ -12,7 +12,7 @@ public class TransactionResponse {
 	private Integer id;
 	private float amount;
 	private ModOfPayment modOfPayment;
-	private User userId;	
+	private Long userId;	
 	private Plan planId;
 	private String username;
 	private float balance;
@@ -36,12 +36,7 @@ public class TransactionResponse {
 	public void setModOfPayment(ModOfPayment modOfPayment) {
 		this.modOfPayment = modOfPayment;
 	}
-	public User getUserId() {
-		return userId;
-	}
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
+	
 	public Plan getPlanId() {
 		return planId;
 	}
@@ -79,6 +74,12 @@ public class TransactionResponse {
 	}
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 	private Date createdAt;
 }

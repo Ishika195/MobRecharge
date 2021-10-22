@@ -39,7 +39,6 @@ public class User {
 	String lastName;
 
 	@NotBlank(message = "Please enter a password")
-	@Size(min = 8, max = 20)
 	String password;
 
 	@NotBlank(message = "Email is mandatory")

@@ -2,6 +2,8 @@ package com.example.MobRecharge.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class BankAccountController {
 
 	@PostMapping("/account")
 	@PreAuthorize("hasRole('USER') ")
-	ResponseEntity<BankAccount> addBankAccount(@RequestBody BankAccountRequest bankaccount) {
+	ResponseEntity<BankAccountResponse> addBankAccount(@Valid @RequestBody BankAccountRequest bankaccount) {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.addBankAccount(bankaccount));
 		} catch (InvalidArguementsException exc) {
@@ -78,7 +80,7 @@ public class BankAccountController {
 
 	@PutMapping("/account/{id}")
 	@PreAuthorize("hasRole('USER')")
-	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id, @RequestBody BankAccount bankAccount) {
+	ResponseEntity<BankAccount> updatAccount(@PathVariable Integer id,@RequestBody BankAccount bankAccount) {
 		System.out.println(bankAccount);
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(bankAccountService.updateAccount(id, bankAccount));

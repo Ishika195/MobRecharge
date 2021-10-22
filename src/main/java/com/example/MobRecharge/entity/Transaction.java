@@ -25,7 +25,6 @@ public class Transaction {
 	@Positive
 	private float amount;
 
-	@NotBlank(message = "Please enter a valid mode of payment")
 	private ModOfPayment modOfPayment;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)

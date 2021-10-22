@@ -112,6 +112,7 @@ public class TransactionService {
 		transactionResponse.setId(transaction.getId());
 		transactionResponse.setPlanId(transaction.getPlanId());
 		transactionResponse.setUsername(transaction.getUserId().getUsername());
+		transactionResponse.setUserId(transaction.getUserId().getUserId());
 
 		return transactionResponse;
 
