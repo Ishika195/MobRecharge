@@ -36,11 +36,6 @@ public class TransactionRequest {
 		this.mobileNumber = mobileNumber;
 	}
 
-	@NotNull
-	@Positive
-	private int accountNumber;
-
-
 	public Integer getId() {
 		return id;
 	}
