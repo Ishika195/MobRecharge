@@ -2,6 +2,8 @@ package com.example.MobRecharge.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +54,7 @@ public class PlanController {
 
 	@PostMapping("plan")
 	@PreAuthorize("hasRole('ADMIN')")
-	ResponseEntity<String> createPlan(@RequestBody PlanRequest planRequest) {
+	ResponseEntity<String> createPlan(@Valid @RequestBody PlanRequest planRequest) {
 		try {
 			planService.createPlan(planRequest);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Plan Saved");

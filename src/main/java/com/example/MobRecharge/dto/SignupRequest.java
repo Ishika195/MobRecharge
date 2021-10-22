@@ -15,7 +15,6 @@ public class SignupRequest {
 	@Email
 	private String email;
 	
-	@NotNull
 	private Set<String> role;
 	
 	@NotBlank(message = "Please enter a password")

@@ -11,7 +11,7 @@ import com.example.MobRecharge.entity.ModOfPayment;
 
 public class TransactionRequest {
 	private Integer id;
-	@NotBlank(message = "Please enter a valid mode of payment")
+
 	private ModOfPayment modOfPayment;
 	
 	@NotNull

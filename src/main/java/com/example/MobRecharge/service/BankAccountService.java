@@ -24,7 +24,7 @@ public class BankAccountService {
 	@Autowired
 	UserRepository userRepository;
 
-	public BankAccount addBankAccount(BankAccountRequest bankAccountRequest) {
+	public BankAccountResponse addBankAccount(BankAccountRequest bankAccountRequest) {
 		if (bankAccountRequest == null) {
 			throw new RuntimeException("Empty object");
 		}
@@ -40,7 +40,7 @@ public class BankAccountService {
 		bankAccount.setBankName(bankAccountRequest.getBankName());
 		bankAccount.setUserId(user);
 
-		return bankAccountRepository.save(bankAccount);
+		return convertBankAccountToBankAccountResponse(bankAccountRepository.save(bankAccount));
 
 	}
 

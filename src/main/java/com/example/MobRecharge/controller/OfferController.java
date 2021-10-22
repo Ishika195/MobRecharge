@@ -2,6 +2,8 @@ package com.example.MobRecharge.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +45,7 @@ public class OfferController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping("/offer")
 	@PreAuthorize("hasRole('ADMIN')")
-	ResponseEntity<String> addNewOffer(@RequestBody Offer offer) {
+	ResponseEntity<String> addNewOffer(@Valid @RequestBody Offer offer) {
 		try {
 			Integer id = offerService.saveOffer(offer);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Successfully added offer with id : " + id);
